@@ -165,7 +165,7 @@ bool c2 = false;
 bool c3 = false;
 int ID;
 int addR = ID - 1;
-int channel;
+int channel = 1;
 int addT;
 byte weaponNb;
 byte gameTime;
@@ -198,6 +198,11 @@ byte dataBytes[5] = {0xA1, 0xF1, ID, 0xAA, 0xAA};
 
 void setup() {
 
+  // IR Rx-Tx configuration
+
+  Serial.begin(9600);
+
+
   EEPROM.get(4, ID);
   
   // Screen configuration
@@ -210,12 +215,13 @@ void setup() {
   display.clearDisplay();
   display.drawBitmap(0, 0, logo, 128, 32, WHITE);
   display.display();
-  delay(3000);
+  delay(1500);
   display.setTextSize(2);
   display.setCursor(0, 0);
 
-  c3 = askUI("Modifier", "ID ou Freq?", 2500, c3);
-  if (c3 == true) {
+  //c3 = askUI("Modifier", "ID ou Freq?", 2500, c3);
+  Serial.println(c3);
+  /*if (c3 == true) {
   
     // ID configuration
   
@@ -226,7 +232,7 @@ void setup() {
   
     channel = confUI(1, ID, "Freq arme", "", false, channel);
 
-  }
+  }*/
   
   // nRF24 configuration
 
@@ -235,10 +241,6 @@ void setup() {
   radio.openReadingPipe(1, addresses[addR]);
   radio.setPALevel(RF24_PA_MIN);
   radio.startListening();
-
-  // IR Rx-Tx configuration
-
-  Serial.begin(9600);
 
   // Generic configuration (Inputs-Outputs)
 
@@ -249,7 +251,7 @@ void setup() {
 // Loop code
 
 void loop() {
-  configuration();
+  //configuration();
   play();
   returnStart();
   ending();
@@ -316,7 +318,8 @@ bool askUI (char char1[], char char2[], int wait, int configurable) {
   display.display();
   timeStart = millis();
   timeVal = 0;
-  while (timeVal < wait && c == false) {
+  while (timeVal < wait && configurable == false) {
+    Serial.println(digitalRead(trigger));
     timeVal = millis() - timeStart;
     if (digitalRead(trigger) == LOW) {
       configurable = true;
