@@ -1,5 +1,5 @@
 /*****************************************************************************************************
-  Weapon program - Laser game program for weapon
+  LaserInfraRed Game
 
   Hugues Kadi - ATTSSystem - All rights reserved ©
 
@@ -159,7 +159,6 @@ const byte addresses[][6] = {"00001", "00002", "00003", "00004", "00005", "00006
 //int reset;
 unsigned long gamePlay;
 int data;
-bool playing = true;
 bool c = false;
 bool c1 = false;
 bool c2 = false;
@@ -281,7 +280,7 @@ void play() {
         delay(100);
         radio.startListening();
         score = score - scoreMinus;
-        cross();
+        draw("cross");
         updateDisplay();
       }
     }
@@ -291,7 +290,7 @@ void play() {
     if (radio.available()) {
       radio.read(&data, sizeof(data));
       if (data == 44) {
-        tick();
+        draw("tick");
         score = score + scorePlus;
         updateDisplay();
       }
@@ -702,10 +701,6 @@ void returnStart() {
   }
 }
 
-void gameEnd() {
-  playing = false;
-}
-
 void updateDisplay() {
   display.clearDisplay();
   display.setCursor(0, 0);
@@ -723,6 +718,15 @@ void soundFX(float amplitude, float period) {
   }
 }
 
+void draw(unsigned char image[]) {
+  display.clearDisplay();
+  display.drawBitmap(0, 0, image, 128, 32, WHITE);
+  display.display();
+  delay(500);
+}
+
+/* Waiting for test
+
 void cross() {
   display.clearDisplay();
   display.drawBitmap(0, 0, crossed, 128, 32, WHITE);
@@ -735,4 +739,4 @@ void tick() {
   display.drawBitmap(0, 0, ticked, 128, 32, WHITE);
   display.display();
   delay(500);
-}
+} */
