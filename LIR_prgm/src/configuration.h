@@ -35,6 +35,7 @@ void configuration() {
   if (ID == 1) {
     c = askUI("Modifier", "config?", 3000, c);
     if (c == true) {
+      delay(350);
       c1 = askUI("Prochaine", "?", 3000, c1);
       if (c1 == true) {
         weaponNb = confUI(2, weaponNb, "Nb d'armes", "armes", false, weaponNbDef);
