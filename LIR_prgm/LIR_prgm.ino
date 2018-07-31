@@ -5,12 +5,12 @@
 
   Schematics
                                     _______________
-                        TX 31       |             |   VIN
-                        RX 30       |             |   GND --- GND IR & nRF24 & Screen
+              Rx IR --- TX 31       |             |   VIN
+              Tx IR --- RX 30       |             |   GND --- GND IR & nRF24 & Screen
                         RST 29      |             |   RST 29
                         GND         |             |   5V --- VCC IR + Laser (220 Ohm)
-              Rx IR --- D2 32       |             |   A7 22
-              Tx IR --- D3 1        |             |   A6 19
+                        D2 32       |             |   A7 22
+                        D3 1        |             |   A6 19
            CE nRF24 --- D4 2        |   Arduino   |   SCL 28 --- SCL Screen
           CSN nRF24 --- D5 9        |    Nano     |   SDA 27 --- SDA Screen
               Piezo --- D6 10       |     V3      |   A3 26
@@ -138,7 +138,7 @@ const unsigned char ticked [] PROGMEM = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
-// nRF24 & Mirf requirements
+// nRF24 requirements
 
 #include <SPI.h>
 #include <nRF24L01.h>
@@ -155,33 +155,31 @@ const byte addresses[][6] = {"00001", "00002", "00003", "00004", "00005", "00006
 
 // Vars initialisation
 
-//int firstStart;
-//int reset;
 unsigned long gamePlay;
 int data;
 bool c = false;
 bool c1 = false;
 bool c2 = false;
 bool c3 = false;
-int ID;
-int addR = ID - 1;
-int channel = 1;
-int addT;
+byte ID;
+byte addR = ID - 1;
+byte channel;
+byte addT;
 byte weaponNb;
 byte gameTime;
 byte scorePlus;
 byte scoreMinus;
-int weaponNbDef = 0;
-int gameTimeDef = 1;
-int scorePlusDef = 2;
-int scoreMinusDef = 3;
-int receivedID;
+#define weaponNbDef 0
+#define gameTimeDef 1
+#define scorePlusDef 2
+#define scoreMinusDef 3
+#define IDDef 4
+#define channelDef 5
+byte receivedID;
 int score = 0;
 unsigned long timeStart;
 unsigned long timeVal;
 int delayTime;
-
-// IR Requirements
 
 // Sound Requirements
 
@@ -192,18 +190,24 @@ int length = sizeof(notes); // the number of notes
 int beats[] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 3, 16,};
 int tempo = 75;
 
+// IR Requirements
+
 byte dataBytes[5] = {0xA1, 0xF1, ID, 0xAA, 0xAA};
 
 // Setup code
 
 void setup() {
 
+  // Reading ID and Channel in memory
+
+  EEPROM.get(IDDef, ID);
+  int addR = ID - 1;
+  EEPROM.get(channelDef, channel);
+
   // IR Rx-Tx configuration
 
   Serial.begin(9600);
-
-
-  EEPROM.get(4, ID);
+  byte dataBytes[5] = {0xA1, 0xF1, ID, 0xAA, 0xAA};
   
   // Screen configuration
 
@@ -216,8 +220,17 @@ void setup() {
   display.drawBitmap(0, 0, logo, 128, 32, WHITE);
   display.display();
   delay(1500);
-  display.setTextSize(2);
+  display.clearDisplay();
   display.setCursor(0, 0);
+  display.println("ID ");
+  display.println(ID);
+  display.display();
+  delay(1500);
+
+  // Generic configuration (Inputs-Outputs)
+
+  pinMode(trigger, INPUT_PULLUP );
+  pinMode(piezo, OUTPUT);
 
   c3 = askUI("Modifier", "ID ou Freq?", 2500, c3);
   Serial.println(c3);
@@ -225,12 +238,12 @@ void setup() {
   
     // ID configuration
   
-    ID = confUI(1, ID, "ID arme", "", false, ID);
+    ID = confUI(1, ID, "ID arme", "", true, IDDef);
     int addR = ID - 1;
   
     // Freq confiration
   
-    channel = confUI(1, ID, "Freq arme", "", false, channel);
+    channel = confUI(1, ID, "Freq arme", "", true, channelDef);
 
   }
   
@@ -251,7 +264,7 @@ void setup() {
 // Loop code
 
 void loop() {
-  //configuration();
+  configuration();
   play();
   returnStart();
   ending();
