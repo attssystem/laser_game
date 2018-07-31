@@ -73,10 +73,10 @@ Gerber files available in PCB folder
 - [x] IR working
 - [x] Screen working
 - Configuration
-  - [ ] Can change different parameters
-  - [ ] Can change default parameters
-  - [ ] Can change ID
-  - [ ] Can change nRF24l01 channel
+  - [x] Can change different inGame parameters
+  - [x] Can change default parameters
+  - [x] Can change ID
+  - [x] Can change nRF24l01 channel
 - in Game
   - [x] Aim and shot
   - [x] Get shot
