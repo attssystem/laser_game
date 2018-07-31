@@ -82,6 +82,11 @@ byte dataBytes[5] = {0xA1, 0xF1, ID, 0xAA, 0xAA};
 
 void setup() {
 
+  // Reading ID and Channel in memory
+
+  EEPROM.get(IDDef, ID);
+  EEPROM.get(channelDef, channel);
+
   // Screen configuration
 
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C); // I2C screen address
@@ -90,12 +95,11 @@ void setup() {
   display.setTextSize(3);
   display.setTextColor(WHITE);
   display.setCursor(0, 0);
-  //draw("logo", 1500);
   display.clearDisplay();
   display.setTextSize(2);
   display.setCursor(0, 0);
-  display.println("ID ");
-  display.println(ID);
+  display.print("ID actuel ");
+  display.print(ID);
   display.display();
   delay(1500);
 
@@ -107,20 +111,6 @@ void setup() {
   // Parameters configuration
 
   configuration();
-
-  // IR Rx-Tx configuration
-
-  Serial.begin(9600);
-  byte dataBytes[5] = {0xA1, 0xF1, ID, 0xAA, 0xAA};
-
-  // nRF24 configuration
-
-  addR = ID - 1;
-  radio.begin();
-  radio.setChannel(channel);
-  radio.openReadingPipe(1, addresses[addR]);
-  radio.setPALevel(RF24_PA_MIN);
-  radio.startListening();
 }
 
 // Loop code

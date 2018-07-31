@@ -2,11 +2,6 @@ void configuration() {
 
   // ID configuration
 
-  // Reading ID and Channel in memory
-
-  EEPROM.get(IDDef, ID);
-  EEPROM.get(channelDef, channel);
-
   c3 = askUI("Modifier", "ID ou Freq?", 2500, c3);
   Serial.println(c3);
   if (c3 == true) {
@@ -15,11 +10,25 @@ void configuration() {
 
     ID = confUI(1, ID, "ID arme", "", true, IDDef);
 
-    // Freq confiration
+    // Freq configuration
 
     channel = confUI(1, ID, "Freq arme", "", true, channelDef);
 
   }
+
+  // nRF24 configuration
+
+  addR = ID - 1;
+  radio.begin();
+  radio.setChannel(channel);
+  radio.openReadingPipe(1, addresses[addR]);
+  radio.setPALevel(RF24_PA_MIN);
+  radio.startListening();
+
+  // IR Rx-Tx configuration
+
+  Serial.begin(9600);
+  byte dataBytes[5] = {0xA1, 0xF1, ID, 0xAA, 0xAA};
 
   // Configuration Weapon
 
@@ -38,7 +47,6 @@ void configuration() {
         sendConf(gameTime);
         sendConf(scorePlus);
         sendConf(scoreMinus);
-        radio.startListening();
         waitConfirmation();
       }
       if (c1 == false) {
@@ -50,7 +58,7 @@ void configuration() {
         scorePlus = confUI(10, scorePlus, "Score +", "pts", true, scorePlusDef);
         scoreMinus = confUI(10, scoreMinus, "Score -", "pts", true, scoreMinusDef);
         sendConf(22);
-        dispMsg("En attente");
+        dispMsg("Envoi");
         sendConf(weaponNb);
         sendConf(gameTime);
         sendConf(scorePlus);
@@ -80,7 +88,6 @@ void configuration() {
       display.clearDisplay();
       display.setCursor(0, 0);
       display.println("En attente");
-      display.print("de conf");
       display.display();
       while (!radio.available()) {}
       radio.read(&data, sizeof(data));

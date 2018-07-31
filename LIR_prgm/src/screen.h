@@ -119,19 +119,3 @@ void draw(const unsigned char image [] PROGMEM, int duration) {
   display.display();
   delay(duration);
 }
-
-/* Waiting for test
-
-void cross() {
-  display.clearDisplay();
-  display.drawBitmap(0, 0, crossed, 128, 32, WHITE);
-  display.display();
-  delay(500);
-}
-
-void tick() {
-  display.clearDisplay();
-  display.drawBitmap(0, 0, ticked, 128, 32, WHITE);
-  display.display();
-  delay(500);
-} */

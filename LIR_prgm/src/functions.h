@@ -58,12 +58,14 @@ byte confUI(int def, byte val, char char1[], char char2[], bool EEPR, int valDef
 
 void sendConf(int d) {
   radio.stopListening();
+  dispMsg("Debut Envoi");
   for (int h = 1; h <= (weaponNb - 1); h++) {
     data = d;
     radio.openWritingPipe(addresses[h]);
     radio.write(&data, sizeof(data));
   }
   radio.startListening();
+  dispMsg("Fin Envoi");
 }
 
 void waitData(int val, bool EEPR, int valDef) {
