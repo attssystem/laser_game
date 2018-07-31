@@ -70,7 +70,7 @@ void configuration() {
       }
     }
     else if (c == false || c1 == false) {
-      dispMsg("Configure !");
+      dispMsg("Configure");
       delay(2000);
       EEPROM.get(weaponNbDef, weaponNb);
       EEPROM.get(gameTimeDef, gameTime);
@@ -107,7 +107,7 @@ void configuration() {
           waitData(gameTime, false, gameTimeDef);
           waitData(scorePlus, false, scorePlusDef);
           waitData(scoreMinus, false, scoreMinusDef);
-          dispMsg("Configure !");
+          dispMsg("Configure");
         }
         else if (data == 22) {
           dispMsg("Definitive");
@@ -115,7 +115,7 @@ void configuration() {
           waitData(gameTime, true, gameTimeDef);
           waitData(scorePlus, true, scorePlusDef);
           waitData(scoreMinus, true, scoreMinusDef);
-          dispMsg("Configure !");
+          dispMsg("Configure");
 
         }
         radio.openWritingPipe(addresses[0]);
