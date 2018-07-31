@@ -146,7 +146,7 @@ void play() {
         delay(100);
         radio.startListening();
         score = score - scoreMinus;
-        draw("cross", 500);
+        draw(crossed, 500);
         updateDisplay();
       }
     }
@@ -156,7 +156,7 @@ void play() {
     if (radio.available()) {
       radio.read(&data, sizeof(data));
       if (data == 44) {
-        draw("tick", 500);
+        draw(ticked, 500);
         score = score + scorePlus;
         updateDisplay();
       }
