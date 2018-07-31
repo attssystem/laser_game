@@ -30,7 +30,7 @@
 #include <nRF24L01.h>
 #include <RF24.h>
 RF24 radio(4, 5);
-const byte addresses[][6] = {"00001", "00002", "00003", "00004", "00005", "00006"};
+const byte addresses[][10] = {"00001", "00002", "00003", "00004", "00005", "00006", "00007", "00008", "00009", "00010"};
 
 // Generic requirements
 
