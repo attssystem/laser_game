@@ -116,7 +116,6 @@ void setup() {
 // Loop code
 
 void loop() {
-  configuration();
   play();
   returnStart();
   ending();
