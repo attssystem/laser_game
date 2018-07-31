@@ -38,7 +38,8 @@
   - EEPROM
   - ArduinoSort 
 ```
-    - thanks to emilv [ArduinoSort Git](https://github.com/emilv/ArduinoSort)
+- Thanks
+  - to emilv [ArduinoSort Git](https://github.com/emilv/ArduinoSort)
 
 ### Wiring
 ```
