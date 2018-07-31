@@ -112,7 +112,7 @@ const unsigned char ticked [] PROGMEM = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
-void draw(unsigned char image[], int duration) {
+void draw(const unsigned char image [] PROGMEM, int duration) {
   display.clearDisplay();
   display.setCursor(0, 0);
   display.drawBitmap(0, 0, image, 128, 32, WHITE);

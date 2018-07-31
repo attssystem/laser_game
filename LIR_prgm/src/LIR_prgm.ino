@@ -86,11 +86,13 @@ void setup() {
 
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C); // I2C screen address
   display.clearDisplay();
+  draw(logo, 2000);
   display.setTextSize(3);
   display.setTextColor(WHITE);
   display.setCursor(0, 0);
-  draw("logo", 1500);
+  //draw("logo", 1500);
   display.clearDisplay();
+  display.setTextSize(2);
   display.setCursor(0, 0);
   display.println("ID ");
   display.println(ID);
