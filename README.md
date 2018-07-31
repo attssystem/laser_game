@@ -30,7 +30,7 @@
 - nRF24l01
 ```
   - SPI
-  - nRF24l01
+  - nRF24l0
   - RF24
 ```
 - Others
@@ -77,7 +77,7 @@ Gerber files available in PCB folder
   - [x] Can change default parameters
   - [x] Can change ID
   - [x] Can change nRF24l01 channel
-  - [ ] Can send configuration data
+  - [x] Can send configuration data
 - in Game
   - [x] Aim and shot
   - [x] Get shot
