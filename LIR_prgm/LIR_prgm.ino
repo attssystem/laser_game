@@ -432,14 +432,10 @@ void configuration() {
           display.setCursor(0, 0);
           display.println("Par defaut");
           display.display();
-          EEPROM.get(weaponNbDef, weaponNb);                      // A changer !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          EEPROM.get(weaponNbDef, weaponNb);
           EEPROM.get(gameTimeDef, gameTime);
           EEPROM.get(scorePlusDef, scorePlus);;
           EEPROM.get(scoreMinusDef, scoreMinus);
-          //weaponNb = 2;
-          //gameTime = 1;
-          //scorePlus = 10;
-          //scoreMinus = 10;
           display.clearDisplay();
           display.setCursor(0, 0);
           display.println("Configure !");
