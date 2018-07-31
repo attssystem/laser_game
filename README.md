@@ -36,7 +36,7 @@
 - Others
 ```
   - EEPROM
-  - ArduinoSort 
+  - ArduinoSort
 ```
 - Thanks
   - to emilv [ArduinoSort Git](https://github.com/emilv/ArduinoSort)
@@ -77,6 +77,7 @@ Gerber files available in PCB folder
   - [x] Can change default parameters
   - [x] Can change ID
   - [x] Can change nRF24l01 channel
+  - [ ] Can send configuration data
 - in Game
   - [x] Aim and shot
   - [x] Get shot
