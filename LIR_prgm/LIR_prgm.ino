@@ -219,9 +219,9 @@ void setup() {
   display.setTextSize(2);
   display.setCursor(0, 0);
 
-  //c3 = askUI("Modifier", "ID ou Freq?", 2500, c3);
+  c3 = askUI("Modifier", "ID ou Freq?", 2500, c3);
   Serial.println(c3);
-  /*if (c3 == true) {
+  if (c3 == true) {
   
     // ID configuration
   
@@ -232,7 +232,7 @@ void setup() {
   
     channel = confUI(1, ID, "Freq arme", "", false, channel);
 
-  }*/
+  }
   
   // nRF24 configuration
 

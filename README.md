@@ -2,7 +2,7 @@
 
 ## Documentation
 
-### Based on these technologies :
+### Electronics :
 - Core
   - Arduino Nano
   - Tailor-made PCB
@@ -10,7 +10,7 @@
   - nRF24l01+ (2,4GHz)
   - YIRTM IR Transmitter
 - Interface
-  - SD1306 128x64
+  - SSD1306 128x64
   - Piezo Buzzer
   - Laser (+220Ohm Resistor)
   - Button (using internal pullup)
@@ -20,14 +20,34 @@
   - MicroUSB battery circuit charger
   - Key power switch
 
+### Arduino Libs
+- Screen
+```
+  - Wire
+  - Adafruit_SSD1306
+  - Adafruit_GFX
+```
+- nRF24l01
+```
+  - SPI
+  - nRF24l01
+  - RF24
+```
+- Others
+```
+  - EEPROM
+  - ArduinoSort (thanks to emilv [ArduinoSort Git](https://github.com/emilv/ArduinoSort))
+```
+
 ### Wiring
 ```
-                        TX 31       |             |   VIN
-                        RX 30       |             |   GND --- GND IR & nRF24 & Screen
+                                    _______________
+              Rx IR --- TX 31       |             |   VIN
+              Tx IR --- RX 30       |             |   GND --- GND IR & nRF24 & Screen
                         RST 29      |             |   RST 29
                         GND         |             |   5V --- VCC IR + Laser (220 Ohm)
-              Rx IR --- D2 32       |             |   A7 22
-              Tx IR --- D3 1        |             |   A6 19
+                        D2 32       |             |   A7 22
+                        D3 1        |             |   A6 19
            CE nRF24 --- D4 2        |   Arduino   |   SCL 28 --- SCL Screen
           CSN nRF24 --- D5 9        |    Nano     |   SDA 27 --- SDA Screen
               Piezo --- D6 10       |     V3      |   A3 26
