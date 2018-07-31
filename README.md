@@ -40,7 +40,7 @@
 ```
 - Thanks
   - to emilv [ArduinoSort Git](https://github.com/emilv/ArduinoSort)
-  - to Adafruit [SSD1306 Git](https://github.com/adafruit/Adafruit_SSD1306) [GFX Git](https://github.com/adafruit/Adafruit-GFX-Library)
+  - to Adafruit [SSD1306 Git](https://github.com/adafruit/Adafruit_SSD1306) - [GFX Git](https://github.com/adafruit/Adafruit-GFX-Library)
   - to nRF24 [nRF24l01 and RF24 Git](https://github.com/nRF24/RF24)
 
 
@@ -68,28 +68,28 @@
 Gerber files available in PCB folder
 
 ## Evolution
-- Software
-  - [x] 'Wifi' working
-  - [x] IR working
-  - [x] Screen working
-  - Configuration
-    - [ ] Can change different parameters
-    - [ ] Can change default parameters
-    - [ ] Can change ID
-    - [ ] Can change nRF24l01 channel
-  - in Game
-    - [x] Aim and shot
-    - [x] Get shot
-    - [x] Manage timed games
-  - Ending
-    - [x] Can calculate positions
-    - [x] Can send positions to all weapons
-    - [x] Bonus : Zelda Music
-- Hardware
-  - Electronics
-    - [x] Autonomous power (battery powered)
-    - [x] Charging circuit
-    - [x] Secured startup
-  - Design
-    - [x] Enclosure design
-    - [x] Printed design
+### Software
+- [x] 'Wifi' working
+- [x] IR working
+- [x] Screen working
+- Configuration
+  - [ ] Can change different parameters
+  - [ ] Can change default parameters
+  - [ ] Can change ID
+  - [ ] Can change nRF24l01 channel
+- in Game
+  - [x] Aim and shot
+  - [x] Get shot
+  - [x] Manage timed games
+- Ending
+  - [x] Can calculate positions
+  - [x] Can send positions to all weapons
+  - [x] Bonus : Zelda Music
+### Hardware
+- Electronics
+  - [x] Autonomous power (battery powered)
+  - [x] Charging circuit
+  - [x] Secured startup
+- Design
+  - [x] Enclosure design
+  - [x] Printed design
