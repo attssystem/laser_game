@@ -95,3 +95,6 @@ Gerber files available in PCB folder
 - Design
   - [x] Enclosure design
   - [x] Printed design
+
+## Known Issues
+- Can't use 128*64 pixels because lib takes too much memory and it looks like one of my screen get used to 32 pixels...
