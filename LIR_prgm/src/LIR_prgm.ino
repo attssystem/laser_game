@@ -30,7 +30,7 @@
 #include <nRF24L01.h>
 #include <RF24.h>
 RF24 radio(4, 5);
-const byte addresses[][10] = {"00001", "00002", "00003", "00004", "00005", "00006", "00007", "00008", "00009", "00010"};
+const byte addresses[][10] PROGMEM = {"00001", "00002", "00003", "00004", "00005", "00006", "00007", "00008", "00009", "00010"};
 
 // Generic requirements
 
@@ -39,8 +39,7 @@ const byte addresses[][10] = {"00001", "00002", "00003", "00004", "00005", "0000
 
 // Vars initialisation
 
-unsigned long gamePlay;
-int data;
+byte data;
 bool c = false;
 bool c1 = false;
 bool c2 = false;
@@ -67,16 +66,21 @@ unsigned long timeStart;
 unsigned long timeVal;
 int delayTime;
 
+// Screen requirements
+
+#include <Wire.h>
+#include <SSD1306Ascii.h>
+#include <SSD1306AsciiAvrI2c.h>
+#define I2C_ADDRESS 0x3C
+
+SSD1306AsciiAvrI2c oled;
+
 // Functions requirements
 
 #include <screen.h>
 #include <functions.h>
 #include <sound.h>
 #include <configuration.h>
-
-// IR Requirements
-
-byte dataBytes[5] = {0xA1, 0xF1, ID, 0xAA, 0xAA};
 
 // Setup code
 
@@ -87,21 +91,20 @@ void setup() {
   EEPROM.get(IDDef, ID);
   EEPROM.get(channelDef, channel);
 
-  // Screen configuration
+  // Screen Configuration
 
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3C); // I2C screen address
-  display.clearDisplay();
-  draw(logo, 2000);
-  display.setTextSize(3);
-  display.setTextColor(WHITE);
-  display.setCursor(0, 0);
-  display.clearDisplay();
-  display.setTextSize(2);
-  display.setCursor(0, 0);
-  display.print("ID actuel ");
-  display.print(ID);
-  display.display();
-  delay(1500);
+  oled.begin(&Adafruit128x64, I2C_ADDRESS);
+  oled.setFont(Adafruit5x7);
+  oled.set2X();
+  oled.setCursor(25, 0);
+  oled.print(F("ATTS"));
+  delay(2500);
+  oled.setCursor(0, 0);
+  oled.clear();
+  oled.print(F("ID actuel "));
+  oled.print(ID);
+
+  delay(1000);
 
   // Generic configuration (Inputs-Outputs)
 
@@ -111,6 +114,10 @@ void setup() {
   // Parameters configuration
 
   configuration();
+
+  // IR Rx-Tx configuration
+
+  Serial.begin(9600);
 }
 
 // Loop code
@@ -122,13 +129,11 @@ void loop() {
 }
 
 void play() {
-  display.setTextSize(4);
   timeStart = millis();
-  gamePlay = gameTime * 60000;
 
   // Playing during the game time
 
-  while (timeVal < 60000) {
+  while (timeVal < 60000*gameTime) {
     //Serial.println(timeVal);
     timeVal = millis() - timeStart;
     updateDisplay();
@@ -146,7 +151,7 @@ void play() {
         delay(100);
         radio.startListening();
         score = score - scoreMinus;
-        draw(crossed, 500);
+        //draw(crossed, 500);
         updateDisplay();
       }
     }
@@ -156,7 +161,7 @@ void play() {
     if (radio.available()) {
       radio.read(&data, sizeof(data));
       if (data == 44) {
-        draw(ticked, 500);
+        //draw(ticked, 500);
         score = score + scorePlus;
         updateDisplay();
       }
@@ -165,6 +170,7 @@ void play() {
     // If trigger is pushed
 
     if (digitalRead(trigger) == LOW) {
+      const byte dataBytes[5] PROGMEM = {0xA1, 0xF1, ID, 0xAA, 0xAA};
       Serial.write(dataBytes, sizeof(dataBytes));
       for (int i = 0; i <= 200; i++) {
         soundFX(100.0, 30.0); // ray gun
@@ -192,19 +198,19 @@ void ending() {
       timeVal = 0;
       while (!radio.available() && timeVal < 2000) {
         timeVal = millis() - timeStart;
-        display.clearDisplay();
-        display.setCursor(0, 0);
-        display.println("attente");
-        display.display();
+        oled.clear();
+        oled.setCursor(0, 0);
+        oled.println(F("En attente"));
+
       }
       radio.read(&data, sizeof(data));
       scores[f] = data;
       timeVal = millis() - timeStart;
       if (timeVal > 2000) {
-        display.clearDisplay();
-        display.setCursor(0, 0);
-        display.println("Redemarrer");
-        display.display();
+        oled.clear();
+        oled.setCursor(0, 0);
+        oled.println(F("Redemarrer"));
+
         while (1 == 1) {}
       }
     }
@@ -249,23 +255,21 @@ void ending() {
     pos[ID] = data;
   }
 
-  display.setTextSize(2);
-  display.clearDisplay();
-  display.setCursor(0, 0);
-  display.println("Vous etes");
-  display.print(pos[ID]);
-  display.print("e");
-  display.display();
+  oled.clear();
+  oled.setCursor(0, 0);
+  oled.println(F("Vous etes"));
+  oled.print(pos[ID]);
+  oled.print(F("e"));
+
   while (1 == 1) {}
 }
 
 void returnStart() {
-  display.clearDisplay();
-  display.setTextSize(2);
-  display.setCursor(0, 0);
-  display.println("Retour au");
-  display.print("pt depart");
-  display.display();
+  oled.clear();
+  oled.setCursor(0, 0);
+  oled.println(F("Retour au"));
+  oled.print(F("pt depart"));
+
   for (int i = 0; i < length; i++) {
     if (notes[i] == ' ') {
       delay(beats[i] * tempo); // rest

@@ -1,13 +1,9 @@
-void dispMsg(char char1[]) {
-  display.clearDisplay();
-  display.setCursor(0, 0);
-  display.println(char1);
-  display.display();
-}
-
 void waitConfirmation() {
   for (int f = 24; f <= weaponNb + 22; f++) {
-    dispMsg("En attente");
+    oled.clear();
+    oled.setCursor(0, 0);
+    oled.println(F("En attente"));
+
     timeStart = millis();
     timeVal = 0;
     while (!radio.available() && timeVal < 2000) {
@@ -16,21 +12,21 @@ void waitConfirmation() {
     radio.read(&data, sizeof(data));
     timeVal = millis() - timeStart;
     if (data != 24 || timeVal > 2000) {
-      dispMsg("Redemarrer");
+      oled.clear();
+      oled.setCursor(0, 0);
+      oled.println(F("Redemarrer"));
+
       while (1 == 1) {}
     }
   }
 }
-byte confUI(int def, byte val, char char1[], char char2[], bool EEPR, int valDef) {
+byte confUI(byte def, byte val, char char1[10], bool EEPR, byte valDef) {
   val = def;
-  display.clearDisplay();
-  display.setCursor(0, 0);
-  display.println(char1);
-  display.setCursor(0, 16);
-  display.println(val);
-  display.setCursor(64, 16);
-  display.println(char2);
-  display.display();
+  oled.clear();
+  oled.setCursor(0, 0);
+  oled.println(char1);
+  oled.println(val);
+
   delay(350);
   timeStart = millis();
   timeVal = millis() - timeStart;
@@ -40,14 +36,11 @@ byte confUI(int def, byte val, char char1[], char char2[], bool EEPR, int valDef
       val++;
       delay(250);
       timeStart = millis();
-      display.clearDisplay();
-      display.setCursor(0, 0);
-      display.println(char1);
-      display.setCursor(0, 16);
-      display.println(val);
-      display.setCursor(64, 16);
-      display.println(char2);
-      display.display();
+      oled.clear();
+      oled.setCursor(0, 0);
+      oled.println(char1);
+      oled.println(val);
+
     }
   }
   if (EEPR == true) {
@@ -73,10 +66,10 @@ void waitData(int val, bool EEPR, int valDef) {
     timeVal = millis() - timeStart;
   }
   if (timeVal > 260) {
-    display.clearDisplay();
-    display.setCursor(0, 0);
-    display.println("Redemarrer");
-    display.display();
+    oled.clear();
+    oled.setCursor(0, 0);
+    oled.println(F("Redemarrer"));
+
     while (1 == 1) {}
   }
   radio.read(&data, sizeof(data));
@@ -86,12 +79,12 @@ void waitData(int val, bool EEPR, int valDef) {
   }
 }
 
-bool askUI (char char1[], char char2[], int wait, int configurable) {
-  display.clearDisplay();
-  display.setCursor(0, 0);
-  display.println(char1);
-  display.println(char2);
-  display.display();
+bool askUI (char char1[], int wait, int configurable) {
+  oled.clear();
+  oled.setCursor(0, 0);
+  oled.println(F("Modifier"));
+  oled.println(char1);
+
   timeStart = millis();
   timeVal = 0;
   while (timeVal < wait && configurable == false) {
@@ -106,16 +99,9 @@ bool askUI (char char1[], char char2[], int wait, int configurable) {
 }
 
 void updateDisplay() {
-  display.clearDisplay();
-  display.setCursor(0, 0);
-  display.println(score);
-  display.display();
-}
+  oled.clear();
+  oled.set2X();
+  oled.setCursor(0, 0);
+  oled.println(score);
 
-void draw(const unsigned char image [] PROGMEM, int duration) {
-  display.clearDisplay();
-  display.setCursor(0, 0);
-  display.drawBitmap(0, 0, image, 128, 32, WHITE);
-  display.display();
-  delay(duration);
 }
