@@ -47,7 +47,6 @@ Available under LIR_prgm/lib
 
 ### Wiring
 ```
-                                    _______________
               Rx IR --- TX 31       |             |   VIN
               Tx IR --- RX 30       |             |   GND --- GND IR & nRF24 & Screen
                         RST 29      |             |   RST 29
