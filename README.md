@@ -21,6 +21,7 @@
   - Key power switch
 
 ### Arduino Libs
+Available under LIR_prgm/lib
 - Screen
 ```
   - Wire
@@ -40,7 +41,7 @@
 ```
 - Thanks
   - to emilv [ArduinoSort Git](https://github.com/emilv/ArduinoSort)
-  - to Adafruit [SSD1306 Git](https://github.com/adafruit/Adafruit_SSD1306) - [GFX Git](https://github.com/adafruit/Adafruit-GFX-Library)
+  - to Adafruit [SSD1306 Git](https://github.com/adafruit/Adafruit_SSD1306) / [GFX Git](https://github.com/adafruit/Adafruit-GFX-Library)
   - to nRF24 [nRF24l01 and RF24 Git](https://github.com/nRF24/RF24)
 
 
