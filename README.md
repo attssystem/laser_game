@@ -74,15 +74,15 @@ Gerber files available in PCB folder
 - [x] IR working
 - [x] Screen working
 - Configuration
-  - [x] Can change different inGame parameters
-  - [x] Can change default parameters
+  - [ ] Can change different inGame parameters
+  - [ ] Can change default parameters
   - [x] Can change ID
   - [x] Can change nRF24l01 channel
-  - [x] Can send configuration data
+  - [ ] Can send configuration data
 - in Game
   - [x] Aim and shot
   - [x] Get shot
-  - [x] Manage timed games
+  - [ ] Manage timed games
 - Ending
   - [x] Can calculate positions
   - [x] Can send positions to all weapons
