@@ -2,7 +2,7 @@ void configuration() {
 
   // ID configuration
 
-  c3 = askUI("ID ou Freq?", 1500, c3);
+  c3 = askUI("ID/Freq?", 1500, c3);
   Serial.println(c3);
   if (c3 == true) {
 

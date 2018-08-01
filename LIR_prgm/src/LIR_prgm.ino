@@ -77,7 +77,6 @@ SSD1306AsciiAvrI2c oled;
 
 // Functions requirements
 
-#include <screen.h>
 #include <functions.h>
 #include <sound.h>
 #include <configuration.h>
@@ -96,14 +95,19 @@ void setup() {
   oled.begin(&Adafruit128x64, I2C_ADDRESS);
   oled.setFont(Adafruit5x7);
   oled.set2X();
-  oled.setCursor(25, 0);
+  oled.setCursor(40, 0);
   oled.print(F("ATTS"));
-  delay(2500);
+  oled.setCursor(28, 2);
+  oled.print(F("System"));
+  oled.setCursor(18, 5);
+  oled.set1X();
+  oled.print(F("LIR Game (c) MK5"));
+  delay(3000);
   oled.setCursor(0, 0);
+  oled.set2X();
   oled.clear();
-  oled.print(F("ID actuel "));
+  oled.println(F("ID actuel :"));
   oled.print(ID);
-
   delay(1000);
 
   // Generic configuration (Inputs-Outputs)
