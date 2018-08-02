@@ -33,9 +33,9 @@ Available under LIR_prgm/lib
   - RF24
 - Others
   - EEPROM
-  - ArduinoSort
+  - ~~ArduinoSort~~
 - Thanks
-  - to emilv [ArduinoSort Git](https://github.com/emilv/ArduinoSort)
+  - ~~to emilv [ArduinoSort Git](https://github.com/emilv/ArduinoSort)~~
   - ~~to Adafruit [SSD1306 Git](https://github.com/adafruit/Adafruit_SSD1306) / [GFX Git](https://github.com/adafruit/Adafruit-GFX-Library)~~
   - to greiman [SSD1306Ascii Git](https://github.com/greiman/SSD1306Ascii)
   - to nRF24 [nRF24l01 and RF24 Git](https://github.com/nRF24/RF24)
