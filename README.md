@@ -23,23 +23,17 @@
 ### Arduino Libs
 Available under LIR_prgm/lib
 - Screen
-```
   - Wire
   - ~~Adafruit_SSD1306~~
   - ~~Adafruit_GFX~~
   - SSD1306Ascii
-```
 - nRF24l01
-```
   - SPI
   - nRF24l0
   - RF24
-```
 - Others
-```
   - EEPROM
   - ArduinoSort
-```
 - Thanks
   - to emilv [ArduinoSort Git](https://github.com/emilv/ArduinoSort)
   - ~~to Adafruit [SSD1306 Git](https://github.com/adafruit/Adafruit_SSD1306) / [GFX Git](https://github.com/adafruit/Adafruit-GFX-Library)~~
