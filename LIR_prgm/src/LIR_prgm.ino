@@ -30,7 +30,7 @@
 #include <nRF24L01.h>
 #include <RF24.h>
 RF24 radio(4, 5);
-const byte addresses[][10] PROGMEM = {"00001", "00002", "00003", "00004", "00005", "00006", "00007", "00008", "00009", "00010"};
+const byte addresses[][6] = {"00001", "00002", "00003", "00004", "00005", "00006", "00007", "00008", "00009", "00010"};
 
 // Generic requirements
 
@@ -52,6 +52,10 @@ byte weaponNb;
 byte gameTime;
 byte scorePlus;
 byte scoreMinus;
+byte newMinutes;
+byte newSeconds;
+byte oldMinutes;
+byte oldSeconds;
 #define weaponNbDef 0
 #define gameTimeDef 1
 #define scorePlusDef 2
@@ -64,6 +68,7 @@ byte receivedID;
 int score = 0;
 unsigned long timeStart;
 unsigned long timeVal;
+unsigned long timeRemain;
 int delayTime;
 
 // Screen requirements
@@ -99,7 +104,7 @@ void setup() {
   oled.print(F("ATTS"));
   oled.setCursor(28, 2);
   oled.print(F("System"));
-  oled.setCursor(18, 5);
+  oled.setCursor(18, 6);
   oled.set1X();
   oled.print(F("LIR Game (c) MK5"));
   delay(3000);
@@ -140,7 +145,7 @@ void play() {
   while (timeVal < 60000*gameTime) {
     //Serial.println(timeVal);
     timeVal = millis() - timeStart;
-    updateDisplay();
+    updateTime();
 
     // If bullet received
 

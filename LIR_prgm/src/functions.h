@@ -102,5 +102,34 @@ void updateDisplay() {
   oled.clear();
   oled.set2X();
   oled.setCursor(0, 0);
-  oled.println(score);
+  oled.print("Score :");
+  oled.setCursor(0, 2);
+  oled.print(score);
+  oled.setCursor(0, 4);
+  oled.print("Tps restant :");
+  oled.setCursor(0, 6);
+  oled.print(oldMinutes);
+  oled.setCursor(30, 6);
+  oled.print("min");
+  oled.setCursor(70, 6);
+  oled.print(oldSeconds);
+  oled.setCursor(100, 6);
+  oled.print("s");
+}
+
+byte updateTime() {
+  timeRemain = gameTime * 60000 - timeVal;
+  newSeconds = timeRemain/1000-(newMinutes*60);
+  if (newSeconds > 60) {
+    newSeconds = newSeconds - 60;
+  }
+  newMinutes = timeRemain/60000;
+  if (newSeconds != oldSeconds) {
+    oldSeconds = newSeconds;
+    updateDisplay();
+  }
+  else if (newMinutes != oldMinutes) {
+    oldMinutes = newMinutes;
+    updateDisplay();
+  }
 }

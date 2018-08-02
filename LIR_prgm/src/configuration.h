@@ -20,9 +20,9 @@ void configuration() {
 
   addR = ID - 1;
   radio.begin();
+  radio.setPALevel(RF24_PA_LOW);
   radio.setChannel(channel);
   radio.openReadingPipe(1, addresses[addR]);
-  radio.setPALevel(RF24_PA_MIN);
   radio.startListening();
 
   // Configuration Weapon
