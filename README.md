@@ -26,7 +26,7 @@ Available under LIR_prgm/lib
   - Wire
   - ~~Adafruit_SSD1306~~
   - ~~Adafruit_GFX~~
-  - SSD1306Ascii
+  - SSD1306Ascii (lighter RAM usage)
 - nRF24l01
   - SPI
   - nRF24l0
