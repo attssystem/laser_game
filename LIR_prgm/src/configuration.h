@@ -22,6 +22,12 @@ void configuration() {
   radio.begin();
   radio.setPALevel(RF24_PA_MAX);
   radio.setChannel(channel);
+  if (ID == 1) {
+    radio.openReadingPipe(1, addresses[0]);
+  }
+  else {
+    radio.openReadingPipe(1, addresses[1]);
+  }
   radio.openReadingPipe(1, addresses[addR]);
   radio.startListening();
 
@@ -47,8 +53,6 @@ void configuration() {
         sendConf(gameTime);
         sendConf(scorePlus);
         sendConf(scoreMinus);
-        radio.startListening();
-        waitConfirmation();
       }
       if (c1 == false) {
         c2 = askUI("defaut?", 1500, c2);
@@ -68,8 +72,6 @@ void configuration() {
         sendConf(gameTime);
         sendConf(scorePlus);
         sendConf(scoreMinus);
-        radio.startListening();
-        waitConfirmation();
         c1 = true;
       }
     }
@@ -89,9 +91,8 @@ void configuration() {
 
       radio.stopListening();
       sendConf(21);
-      radio.startListening();
-      waitConfirmation();
     }
+    radio.startListening();
   }
 
   // Generic Weapon
@@ -108,55 +109,52 @@ void configuration() {
         if (data == 21) {
           oled.clear();
           oled.setCursor(0, 0);
-          oled.println(F("Par defaut"));
-
+          oled.print(F("Par defaut"));
           EEPROM.get(weaponNbDef, weaponNb);
           EEPROM.get(gameTimeDef, gameTime);
           EEPROM.get(scorePlusDef, scorePlus);;
           EEPROM.get(scoreMinusDef, scoreMinus);
           oled.clear();
           oled.setCursor(0, 0);
-          oled.println(F("Configure"));
+          oled.print(F("Configure"));
 
         }
         else if (data == 20) {
           oled.clear();
           oled.setCursor(0, 0);
-          oled.println(F("Provisoire"));
+          oled.print(F("Provisoire"));
 
-          waitData(weaponNb, false, weaponNbDef);
-          waitData(gameTime, false, gameTimeDef);
-          waitData(scorePlus, false, scorePlusDef);
-          waitData(scoreMinus, false, scoreMinusDef);
+          weaponNb = waitData(weaponNb, false, weaponNbDef);
+          gameTime = waitData(gameTime, false, gameTimeDef);
+          scorePlus = waitData(scorePlus, false, scorePlusDef);
+          scoreMinus = waitData(scoreMinus, false, scoreMinusDef);
           oled.clear();
           oled.setCursor(0, 0);
-          oled.println(F("Configure"));
+          oled.print(F("Configure"));
 
         }
         else if (data == 22) {
           oled.clear();
           oled.setCursor(0, 0);
-          oled.println(F("Definitive"));
-
-          waitData(weaponNb, true, weaponNbDef);
-          waitData(gameTime, true, gameTimeDef);
-          waitData(scorePlus, true, scorePlusDef);
-          waitData(scoreMinus, true, scoreMinusDef);
+          oled.print(F("Definitive"));
+          weaponNb = waitData(weaponNb, true, weaponNbDef);
+          gameTime = waitData(gameTime, true, gameTimeDef);
+          scorePlus = waitData(scorePlus, true, scorePlusDef);
+          scoreMinus = waitData(scoreMinus, true, scoreMinusDef);
           oled.clear();
           oled.setCursor(0, 0);
-          oled.println(F("Configure"));
+          oled.print(F("Configure"));
 
 
         }
-        radio.openWritingPipe(addresses[0]);
-        delayTime = (ID - 1) * 250;
-        delay(delayTime);
-        radio.stopListening();
-        data = 22 + ID;
-        radio.write(&data, sizeof(data));
-        radio.startListening();
         c = true;
       }
     }
   }
+
+  // Setting right nRF24 address
+
+  radio.openReadingPipe(1, addresses[addR]);
+
+
 }

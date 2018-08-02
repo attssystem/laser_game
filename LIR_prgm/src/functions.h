@@ -1,25 +1,3 @@
-void waitConfirmation() {
-  for (int f = 24; f <= weaponNb + 22; f++) {
-    oled.clear();
-    oled.setCursor(0, 0);
-    oled.println(F("En attente"));
-
-    timeStart = millis();
-    timeVal = 0;
-    while (!radio.available() && timeVal < 2000) {
-      timeVal = millis() - timeStart;
-    }
-    radio.read(&data, sizeof(data));
-    timeVal = millis() - timeStart;
-    if (data != 24 || timeVal > 2000) {
-      oled.clear();
-      oled.setCursor(0, 0);
-      oled.println(F("Redemarrer"));
-
-      while (1 == 1) {}
-    }
-  }
-}
 byte confUI(byte def, byte val, char char1[10], bool EEPR, byte valDef) {
   val = def;
   oled.clear();
@@ -50,32 +28,19 @@ byte confUI(byte def, byte val, char char1[10], bool EEPR, byte valDef) {
 }
 
 void sendConf(int d) {
-  for (int h = 1; h <= (weaponNb - 1); h++) {
-    data = d;
-    radio.openWritingPipe(addresses[h]);
-    radio.write(&data, sizeof(data));
-  }
+  data = d;
+  radio.openWritingPipe(addresses[1]);
+  radio.write(&data, sizeof(data));
   delay(50);
 }
 
-void waitData(int val, bool EEPR, int valDef) {
-  timeStart = millis();
-  timeVal = millis() - timeStart;
-  while (!radio.available() && timeVal < 260) {
-    timeVal = millis() - timeStart;
-  }
-  if (timeVal > 260) {
-    oled.clear();
-    oled.setCursor(0, 0);
-    oled.println(F("Redemarrer"));
-
-    while (1 == 1) {}
-  }
+byte waitData(int val, bool EEPR, int valDef) {
+  while (!radio.available()) {}
   radio.read(&data, sizeof(data));
-  val = data;
   if (EEPR == true) {
     EEPROM.put(valDef, data);
   }
+  return data;
 }
 
 bool askUI (char char1[], int wait, int configurable) {
