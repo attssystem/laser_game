@@ -103,5 +103,4 @@ void updateDisplay() {
   oled.set2X();
   oled.setCursor(0, 0);
   oled.println(score);
-
 }
