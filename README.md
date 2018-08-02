@@ -25,8 +25,9 @@ Available under LIR_prgm/lib
 - Screen
 ```
   - Wire
-  - Adafruit_SSD1306
-  - Adafruit_GFX
+  - ~~Adafruit_SSD1306~~
+  - ~~Adafruit_GFX~~
+  - SSD1306Ascii
 ```
 - nRF24l01
 ```
@@ -41,7 +42,8 @@ Available under LIR_prgm/lib
 ```
 - Thanks
   - to emilv [ArduinoSort Git](https://github.com/emilv/ArduinoSort)
-  - to Adafruit [SSD1306 Git](https://github.com/adafruit/Adafruit_SSD1306) / [GFX Git](https://github.com/adafruit/Adafruit-GFX-Library)
+  - ~~to Adafruit [SSD1306 Git](https://github.com/adafruit/Adafruit_SSD1306) / [GFX Git](https://github.com/adafruit/Adafruit-GFX-Library)~~
+  - to greiman [SSD1306Ascii Git](https://github.com/greiman/SSD1306Ascii)
   - to nRF24 [nRF24l01 and RF24 Git](https://github.com/nRF24/RF24)
 
 
@@ -69,19 +71,21 @@ Gerber files available in PCB folder
 
 ## Evolution
 ### Software
-- [x] 'Wifi' working
+- [x] nRF24 working
 - [x] IR working
 - [x] Screen working
 - Configuration
-  - [ ] Can change different inGame parameters
-  - [ ] Can change default parameters
+  - [x] Can change different inGame parameters
+  - [x] Can change default parameters
   - [x] Can change ID
   - [x] Can change nRF24l01 channel
-  - [ ] Can send configuration data
+  - [x] Can send configuration data
 - in Game
   - [x] Aim and shot
   - [x] Get shot
-  - [ ] Manage timed games
+  - [x] Manage timed games
+  - [x] Display timed
+  - [x] Display score
 - Ending
   - [x] Can calculate positions
   - [x] Can send positions to all weapons
@@ -96,4 +100,5 @@ Gerber files available in PCB folder
   - [x] Printed design
 
 ## Known Issues
-- Can't use 128*64 pixels because lib takes too much memory and it looks like one of my screen get used to 32 pixels...
+- ~~Can't use 128*64 pixels because lib takes too much memory and it looks like one of my screen get used to 32 pixels...~~
+- Annoying screen clearing process
