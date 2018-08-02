@@ -35,7 +35,6 @@ const byte addresses[][6] = {"00001", "00002", "00003", "00004", "00005", "00006
 // Generic requirements
 
 #include <EEPROM.h>
-#include <ArduinoSort.h>
 
 // Vars initialisation
 
@@ -122,7 +121,7 @@ void setup() {
 
   // Parameters configuration
 
-  configuration();
+  //configuration();
 
   // IR Rx-Tx configuration
 
@@ -132,8 +131,8 @@ void setup() {
 // Loop code
 
 void loop() {
-  play();
-  returnStart();
+  //play();
+  //returnStart();
   ending();
 }
 
@@ -191,67 +190,73 @@ void play() {
 
 void ending() {
   // Calculating score positions
-
-  int scores[weaponNb + 1];
-  int sortScores[weaponNb + 1];
-  int pos[weaponNb + 1];
-  scores[0] = -9999999;
+  weaponNb = 4;
+  int scores[weaponNb];
+  int sortScores[weaponNb];
+  int pos[weaponNb];
 
   if (ID == 1) {
-    pos[ID] = 1234;
-    // receiving data
+
+    // Receiving data
 
     for (int f = 2; f <= weaponNb; f++) {
       radio.startListening();
-      timeStart = millis();
-      timeVal = 0;
-      while (!radio.available() && timeVal < 2000) {
-        timeVal = millis() - timeStart;
-        oled.clear();
-        oled.setCursor(0, 0);
-        oled.println(F("En attente"));
-
-      }
+      oled.clear();
+      oled.setCursor(0, 0);
+      oled.println(F("En attente"));
+      while (!radio.available() && timeVal < 2000) {}
       radio.read(&data, sizeof(data));
-      scores[f] = data;
-      timeVal = millis() - timeStart;
-      if (timeVal > 2000) {
-        oled.clear();
-        oled.setCursor(0, 0);
-        oled.println(F("Redemarrer"));
-
-        while (1 == 1) {}
-      }
+      scores[f-1] = data;
     }
-    scores[1] = score;
+    scores[0] = score;
 
     // Calculations
 
-    for (int i = 0; i <= weaponNb; i++) {
+    for (int i = 0; i <= weaponNb-1; i++) {
       sortScores[i] = scores[i];
     }
-    sortArrayReverse(sortScores, weaponNb + 1);
+
+    // Sorting positions
+
+    for(int i=0; i<(weaponNb-1); i++) {
+        for(int o=0; o<(weaponNb-(i+1)); o++) {
+                if(sortScores[o] > sortScores[o+1]) {
+                    int t = sortScores[o];
+                    sortScores[o] = sortScores[o+1];
+                    sortScores[o+1] = t;
+                }
+        }
+    }
+
+    // Assigning positions to players
+
     for (int a = 0; a <= weaponNb; a++) {
       for (int b = 0; b <= weaponNb; b++) {
         if (scores[a] == sortScores[b]) {
-          pos[a] = b;
+          pos[a] = b+1;
         }
       }
     }
+    oled.clear();
+    oled.setCursor(0, 0);
+    oled.println(pos[0]);
+    oled.println(pos[1]);
+    oled.println(pos[2]);
+    oled.println(pos[3]);
+    while(1==1){}
 
 
     // sending position
 
     radio.stopListening();
     for (int f = 1; f <= (weaponNb); f++) {
-      data = pos[f];;
+      data = pos[f-1];;
       radio.openWritingPipe(addresses[f - 1]);
       radio.write(&data, sizeof(data));
     }
   }
 
   else {
-    pos[ID] = 1234;
     delayTime = (ID - 1) * 250;
     delay(delayTime);
     radio.stopListening();
@@ -267,7 +272,7 @@ void ending() {
   oled.clear();
   oled.setCursor(0, 0);
   oled.println(F("Vous etes"));
-  oled.print(pos[ID]);
+  oled.print(pos[ID-1]);
   oled.print(F("e"));
 
   while (1 == 1) {}
