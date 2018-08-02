@@ -50,13 +50,12 @@ byte confUI(byte def, byte val, char char1[10], bool EEPR, byte valDef) {
 }
 
 void sendConf(int d) {
-  radio.stopListening();
   for (int h = 1; h <= (weaponNb - 1); h++) {
     data = d;
     radio.openWritingPipe(addresses[h]);
     radio.write(&data, sizeof(data));
   }
-  radio.startListening();
+  delay(50);
 }
 
 void waitData(int val, bool EEPR, int valDef) {

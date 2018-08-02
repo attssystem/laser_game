@@ -20,7 +20,7 @@ void configuration() {
 
   addR = ID - 1;
   radio.begin();
-  radio.setPALevel(RF24_PA_LOW);
+  radio.setPALevel(RF24_PA_MAX);
   radio.setChannel(channel);
   radio.openReadingPipe(1, addresses[addR]);
   radio.startListening();
@@ -41,11 +41,13 @@ void configuration() {
         oled.setCursor(0, 0);
         oled.println(F("Envoi"));
 
+        radio.stopListening();
         sendConf(20);
         sendConf(weaponNb);
         sendConf(gameTime);
         sendConf(scorePlus);
         sendConf(scoreMinus);
+        radio.startListening();
         waitConfirmation();
       }
       if (c1 == false) {
@@ -60,14 +62,15 @@ void configuration() {
         oled.setCursor(0, 0);
         oled.println(F("Envoi"));
 
+        radio.stopListening();
         sendConf(22);
         sendConf(weaponNb);
         sendConf(gameTime);
         sendConf(scorePlus);
         sendConf(scoreMinus);
         radio.startListening();
-        c1 = true;
         waitConfirmation();
+        c1 = true;
       }
     }
     else if (c == false || c1 == false) {
@@ -84,7 +87,9 @@ void configuration() {
       oled.setCursor(0, 0);
       oled.println(F("Envoi"));
 
+      radio.stopListening();
       sendConf(21);
+      radio.startListening();
       waitConfirmation();
     }
   }
