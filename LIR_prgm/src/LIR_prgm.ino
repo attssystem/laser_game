@@ -39,6 +39,7 @@ const byte addresses[][6] = {"00001", "00002", "00003", "00004", "00005", "00006
 // Vars initialisation
 
 byte data;
+bool sendRight = false;
 bool c = false;
 bool c1 = false;
 bool c2 = false;
@@ -64,7 +65,7 @@ byte oldSeconds;
 #define trigger 7
 #define speakerPin 9
 byte receivedID;
-int score = 0;
+long score = 0;
 unsigned long timeStart;
 unsigned long timeVal;
 unsigned long timeRemain;
@@ -190,12 +191,19 @@ void play() {
 
 void ending() {
   // Calculating score positions
-  weaponNb = 4;
-  int scores[weaponNb];
-  int sortScores[weaponNb];
-  int pos[weaponNb];
+
+  long scores[weaponNb];
+  long sortScores[weaponNb];
+  byte pos[weaponNb];
 
   if (ID == 1) {
+
+    // Send right to send to second weapon
+
+    data = 54;
+    radio.stopListening();
+    radio.openWritingPipe(addresses[1]);
+    radio.write(&data, sizeof(data));
 
     // Receiving data
 
@@ -237,14 +245,6 @@ void ending() {
         }
       }
     }
-    oled.clear();
-    oled.setCursor(0, 0);
-    oled.println(pos[0]);
-    oled.println(pos[1]);
-    oled.println(pos[2]);
-    oled.println(pos[3]);
-    while(1==1){}
-
 
     // sending position
 
@@ -257,16 +257,22 @@ void ending() {
   }
 
   else {
-    delayTime = (ID - 1) * 250;
-    delay(delayTime);
+    while (sendRight == false) {
+      while (!radio.available()) {}
+      radio.read(&data, sizeof(data));
+      if (data == 54) {sendRight = true;}
+    }
     radio.stopListening();
-    data = score;
     radio.openWritingPipe(addresses[0]);
+    radio.write(&score, sizeof(score));
+    radio.openWritingPipe(addresses[ID]);
+    data = 54;
     radio.write(&data, sizeof(data));
     radio.startListening();
-    while (!radio.available()) {}
-    radio.read(&data, sizeof(data));
-    pos[ID] = data;
+    for (int i = 2; i <= weaponNb; i++) {
+      while (!radio.available()) {}
+      radio.read(&pos[i-1], sizeof(pos[i-1]));
+    }
   }
 
   oled.clear();
