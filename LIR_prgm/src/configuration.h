@@ -44,7 +44,6 @@ void configuration() {
         scorePlus = confUI(10, scorePlus, "Score +", false, scorePlusDef);
         scoreMinus = confUI(10, scoreMinus, "Score -", false, scoreMinusDef);
         oled.clear();
-        oled.setCursor(0, 0);
         oled.println(F("Envoi"));
 
         radio.stopListening();
@@ -63,7 +62,6 @@ void configuration() {
         scorePlus = confUI(10, scorePlus, "Score +", true, scorePlusDef);
         scoreMinus = confUI(10, scoreMinus, "Score -", true, scoreMinusDef);
         oled.clear();
-        oled.setCursor(0, 0);
         oled.println(F("Envoi"));
 
         radio.stopListening();
@@ -77,7 +75,6 @@ void configuration() {
     }
     else if (c == false || c1 == false) {
       oled.clear();
-      oled.setCursor(0, 0);
       oled.println(F("Configure"));
 
       delay(2000);
@@ -86,7 +83,6 @@ void configuration() {
       EEPROM.get(scorePlusDef, scorePlus);;
       EEPROM.get(scoreMinusDef, scoreMinus);
       oled.clear();
-      oled.setCursor(0, 0);
       oled.println(F("Envoi"));
 
       radio.stopListening();
@@ -108,20 +104,17 @@ void configuration() {
       if (data == 20 || data == 21 || data == 22) {
         if (data == 21) {
           oled.clear();
-          oled.setCursor(0, 0);
           oled.print(F("Par defaut"));
           EEPROM.get(weaponNbDef, weaponNb);
           EEPROM.get(gameTimeDef, gameTime);
           EEPROM.get(scorePlusDef, scorePlus);;
           EEPROM.get(scoreMinusDef, scoreMinus);
           oled.clear();
-          oled.setCursor(0, 0);
           oled.print(F("Configure"));
 
         }
         else if (data == 20) {
           oled.clear();
-          oled.setCursor(0, 0);
           oled.print(F("Provisoire"));
 
           weaponNb = waitData(weaponNb, false, weaponNbDef);
@@ -129,20 +122,17 @@ void configuration() {
           scorePlus = waitData(scorePlus, false, scorePlusDef);
           scoreMinus = waitData(scoreMinus, false, scoreMinusDef);
           oled.clear();
-          oled.setCursor(0, 0);
           oled.print(F("Configure"));
 
         }
         else if (data == 22) {
           oled.clear();
-          oled.setCursor(0, 0);
           oled.print(F("Definitive"));
           weaponNb = waitData(weaponNb, true, weaponNbDef);
           gameTime = waitData(gameTime, true, gameTimeDef);
           scorePlus = waitData(scorePlus, true, scorePlusDef);
           scoreMinus = waitData(scoreMinus, true, scoreMinusDef);
           oled.clear();
-          oled.setCursor(0, 0);
           oled.print(F("Configure"));
 
 

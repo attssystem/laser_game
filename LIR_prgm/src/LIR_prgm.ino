@@ -210,7 +210,6 @@ void ending() {
     for (int f = 2; f <= weaponNb; f++) {
       radio.startListening();
       oled.clear();
-      oled.setCursor(0, 0);
       oled.println(F("En attente"));
       while (!radio.available() && timeVal < 2000) {}
       radio.read(&data, sizeof(data));
@@ -248,6 +247,7 @@ void ending() {
 
     // sending position
 
+    delay(500);
     radio.stopListening();
     for (int f = 1; f <= (weaponNb); f++) {
       data = pos[f-1];;
@@ -276,7 +276,6 @@ void ending() {
   }
 
   oled.clear();
-  oled.setCursor(0, 0);
   oled.println(F("Vous etes"));
   oled.print(pos[ID-1]);
   oled.print(F("e"));
@@ -286,7 +285,6 @@ void ending() {
 
 void returnStart() {
   oled.clear();
-  oled.setCursor(0, 0);
   oled.println(F("Retour au"));
   oled.print(F("pt depart"));
 

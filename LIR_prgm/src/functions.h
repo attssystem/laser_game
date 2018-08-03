@@ -45,7 +45,6 @@ byte waitData(int val, bool EEPR, int valDef) {
 
 bool askUI (char char1[], int wait, int configurable) {
   oled.clear();
-  oled.setCursor(0, 0);
   oled.println(F("Modifier"));
   oled.println(char1);
 
@@ -65,7 +64,6 @@ bool askUI (char char1[], int wait, int configurable) {
 void updateDisplay() {
   oled.clear();
   oled.set2X();
-  oled.setCursor(0, 0);
   oled.print("Score :");
   oled.setCursor(0, 2);
   oled.print(score);
