@@ -132,9 +132,14 @@ void setup() {
 // Loop code
 
 void loop() {
-  //play();
+  /*while (1==1){
+    const byte dataBytes[5] PROGMEM = {0xA1, 0xF1, ID, 0xAA, 0xAA};
+    Serial.write(dataBytes, sizeof(dataBytes));
+    delay(500);
+  }*/
+  play();
   //returnStart();
-  ending();
+  //ending();
 }
 
 void play() {
@@ -143,7 +148,6 @@ void play() {
   // Playing during the game time
 
   while (timeVal < 60000*gameTime) {
-    //Serial.println(timeVal);
     timeVal = millis() - timeStart;
     updateTime();
 
@@ -154,8 +158,8 @@ void play() {
       if (receivedID != ID && receivedID <= weaponNb+1) {
         data = 44;
         addT = receivedID - 1;
-        radio.openWritingPipe(addresses[addT]);
         radio.stopListening();
+        radio.openWritingPipe(addresses[addT]);
         radio.write(&data, sizeof(data));
         delay(100);
         radio.startListening();
