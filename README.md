@@ -1,5 +1,9 @@
 # Laser InfraRed Game (aka LIR Game)
 
+## Description
+
+  This Laser InfraRed Game is an Arduino-made project which consist of a 3D printed weapon (a bit looking like the Rick's portal gun) and a few basics components. This LIR Game is highly customisable and is really cheap. You can play with up to 10 players and you shot someone at 5 meters in daylight.
+
 ## Documentation
 
 ### Electronics :
