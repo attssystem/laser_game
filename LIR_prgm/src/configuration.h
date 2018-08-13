@@ -26,7 +26,7 @@ void configuration() {
     radio.openReadingPipe(1, addresses[0]);
   }
   else {
-    radio.openReadingPipe(1, addresses[1]);
+    radio.openReadingPipe(1, addresses[10]);
   }
   radio.openReadingPipe(1, addresses[addR]);
   radio.startListening();
