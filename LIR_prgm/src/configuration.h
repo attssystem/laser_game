@@ -20,7 +20,7 @@ void configuration() {
 
   addR = ID - 1;
   radio.begin();
-  radio.setPALevel(RF24_PA_MAX);
+  radio.setPALevel(RF24_PA_MIN);
   radio.setChannel(channel);
   if (ID == 1) {
     radio.openReadingPipe(1, addresses[0]);
